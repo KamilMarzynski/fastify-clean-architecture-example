@@ -14,6 +14,6 @@ export type UseCaseErrorOutput = {
 export type UseCaseOutput<R> = UseCaseSuccessOutput<R> | UseCaseErrorOutput
 
 
-export type UseCase<T, R> = {
-    execute: (input: UseCaseInput<T>) => Promise<UseCaseOutput<R>>
+export type UseCase<T extends UseCaseInput<any>, R extends UseCaseOutput<any>> = {
+    execute: (input: T) => Promise<R>
 }
