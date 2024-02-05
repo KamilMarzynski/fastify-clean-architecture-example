@@ -1,4 +1,4 @@
-import { CreateUserUseCase } from "../../types/use-cases/create-user.use-case";
+import { CreateUserUseCase } from "../../ports/use-cases/create-user.use-case";
 
 export class UserController {
     constructor(private readonly createUserUseCase: CreateUserUseCase) {}

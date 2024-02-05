@@ -1,6 +1,6 @@
 import { QueryOptions } from "../../../../../_lib/core";
 import { User, UserId, toUserId } from "../../../../../_lib/common/entities/user";
-import { UserRepository } from "../../../types/user.repository";
+import { UserRepository } from "../../../ports/user.repository";
 
 export class LocalUserRepositorty implements UserRepository {
 
