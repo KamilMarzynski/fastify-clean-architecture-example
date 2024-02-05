@@ -20,7 +20,7 @@ export type QueryOptions<E extends Entity<EntityId<string>, E['props']>> = {
     order?: Order;
 }
 
-export type Repository<E extends Entity<EntityId<string>, E['props']>> = {
+export type Repository<E extends Entity<EntityId<any>, E['props']>> = {
     getNextId: () => Promise<E['id']>
     get: (id: E['id']) => Promise<E | undefined>
     getAll: (query: QueryOptions<E>) => Promise<PaginatedResult<E>>

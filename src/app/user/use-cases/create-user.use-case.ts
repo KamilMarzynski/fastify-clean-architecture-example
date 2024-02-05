@@ -1,6 +1,6 @@
 import { CreateUserInput, CreateUserOutput, CreateUserUseCase } from "../ports/use-cases/create-user.use-case";
 import { UserRepository } from "../ports/user.repository";
-import { User } from "../../../_lib/common/entities/user";
+import { User } from "../../../_lib/common/user/domain/user.entity";
 
 export class CreateUserUseCaseImpl implements CreateUserUseCase {
 

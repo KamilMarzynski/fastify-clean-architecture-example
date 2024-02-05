@@ -1,5 +1,5 @@
 import { QueryOptions } from "../../../../../_lib/core";
-import { User, UserId, toUserId } from "../../../../../_lib/common/entities/user";
+import { User, UserId } from "../../../../../_lib/common/user/domain/user.entity";
 import { UserRepository } from "../../../ports/user.repository";
 
 export class LocalUserRepositorty implements UserRepository {
@@ -7,7 +7,9 @@ export class LocalUserRepositorty implements UserRepository {
     private users: any[] = [];
 
     async getNextId() {
-        return toUserId((this.users.length + 1).toString());
+        return {
+            value: (this.users.length + 1).toString()
+        }
     }
 
     async get(id: UserId) {
