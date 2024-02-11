@@ -1,4 +1,3 @@
-export { Branded } from "./branded";
 export { EntityId } from "./entityId";
 export { Entity } from "./entity";
 export { Repository, QueryOptions } from "./repository";
