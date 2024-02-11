@@ -1,10 +1,11 @@
 import fastify from 'fastify'
+import { UserModule } from './app/user/user.module'
 
+  
 const server = fastify()
 
-server.get('/ping', async (request, reply) => {
-  return 'pong\n'
-})
+const userModule = new UserModule(server);
+userModule.init();
 
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {
@@ -12,4 +13,4 @@ server.listen({ port: 8080 }, (err, address) => {
     process.exit(1)
   }
   console.log(`Server listening at ${address}`)
-})
+});
