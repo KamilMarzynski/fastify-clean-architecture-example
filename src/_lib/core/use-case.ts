@@ -1,5 +1,6 @@
 export type UseCaseInput<T> = {
-    payload: T
+    data: T,
+    context?: any
 }
 
 export type UseCaseSuccessOutput<R> = {
