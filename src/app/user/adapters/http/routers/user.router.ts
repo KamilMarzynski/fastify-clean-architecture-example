@@ -19,9 +19,7 @@ export class UserRouter {
 
     public register() {
         this.server.post('/users', {
-            schema: {
-                body: createUserSchema.body
-            }
+            schema: createUserSchema
         }, (req, res) => this.userController.createUser(req, res));
     }
 }
