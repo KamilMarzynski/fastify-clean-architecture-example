@@ -1,5 +1,5 @@
 import { QueryOptions } from "../../../../../../_lib/core";
-import { User, UserId } from "../../../../../../_lib/common/user/domain/user.entity";
+import { User, UserId } from "../../../../../../_lib/_sharedKernel/user/domain/user.entity";
 import { UserRepository } from "../../../../ports/user.repository";
 
 export class LocalUserRepositorty implements UserRepository {
