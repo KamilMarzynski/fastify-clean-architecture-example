@@ -10,9 +10,15 @@ export class UserController {
         const input = {
             data: req.body
         }
-        const userId = await this.createUserUseCase.execute(input);
+        const output = await this.createUserUseCase.execute(input);
+
+        if ('code' in output) {
+            // TODO: add custom domain errors and handle them here
+            return res.status(500).send(output.message);
+        }
+
         return res.send({
-            userId
+            userId: output.result.id
         });
     }
 }
