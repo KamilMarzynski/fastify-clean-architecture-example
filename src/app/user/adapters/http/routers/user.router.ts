@@ -1,4 +1,4 @@
-import { UserController } from "../controllers/user.controller";
+import { HttpUserController } from "../controllers/user.controller";
 import { FastifyInstance } from "fastify";
 
 const createUserSchema = {
@@ -15,7 +15,7 @@ const createUserSchema = {
 }
 
 export class UserRouter {
-    constructor(private readonly userController: UserController, private readonly server: FastifyInstance) { }
+    constructor(private readonly userController: HttpUserController, private readonly server: FastifyInstance) { }
 
     public register() {
         this.server.post('/users', {

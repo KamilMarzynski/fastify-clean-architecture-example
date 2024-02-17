@@ -2,7 +2,7 @@ import { Request, Response } from "../../../../../_lib/core/http";
 
 import { CreateUserUseCase } from "../../../ports/use-cases/create-user.use-case";
 
-export class UserController {
+export class HttpUserController {
     constructor(private readonly createUserUseCase: CreateUserUseCase) {
     }
 
