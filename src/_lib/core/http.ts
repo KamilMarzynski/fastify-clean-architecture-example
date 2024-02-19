@@ -1,3 +1,5 @@
+// TODO: is it actually good to wrap request and response?
+
 export type Request = {
     body: any;
     query: any;
