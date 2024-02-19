@@ -1,6 +1,6 @@
 import { QueryOptions } from "../../../../../../_lib/core";
 import { User, UserId } from "../../../../../../_lib/_sharedKernel";
-import { UserRepository } from "../../../../ports/user.repository";
+import { UserRepository } from "../../../../ports/repositories/user.repository";
 
 export class LocalUserRepository implements UserRepository {
     async findByEmail(email: string): Promise<User | null> {

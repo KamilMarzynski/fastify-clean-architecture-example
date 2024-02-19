@@ -1,5 +1,5 @@
 import { CreateUserInput, CreateUserOutput, CreateUserUseCase } from "../ports/use-cases/create-user.use-case";
-import { UserRepository } from "../ports/user.repository";
+import { UserRepository } from "../ports/repositories/user.repository";
 import { User } from "../../../_lib/_sharedKernel";
 import { toValue } from "../../../_lib/core/entityId";
 import { USER_EXCEPTIONS } from "./exceptions";
