@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { LocalUserRepositorty } from './adapters/db/repositories/local/user.repository';
+import { LocalUserRepository } from './adapters/db/repositories/local/user.repository';
 import { CreateUserUseCaseImpl } from './use-cases/create-user.use-case';
 import { HttpUserController } from './adapters/http/controllers/user.controller';
 import { UserRouter } from './adapters/http/routers/user.router';
@@ -9,7 +9,7 @@ export class UserModule {
 
     init() {
         // DB adapters
-        const userRepository = new LocalUserRepositorty();
+        const userRepository = new LocalUserRepository();
 
         // Application use cases
         const createUser = new CreateUserUseCaseImpl(userRepository);

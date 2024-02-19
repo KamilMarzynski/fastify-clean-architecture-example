@@ -2,7 +2,7 @@ import { QueryOptions } from "../../../../../../_lib/core";
 import { User, UserId } from "../../../../../../_lib/_sharedKernel";
 import { UserRepository } from "../../../../ports/user.repository";
 
-export class LocalUserRepositorty implements UserRepository {
+export class LocalUserRepository implements UserRepository {
     async findByEmail(email: string): Promise<User | null> {
         return this.users.find(u => u.email === email) || null;
     }
