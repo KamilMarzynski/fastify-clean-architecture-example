@@ -1,8 +1,11 @@
 import { QueryOptions } from "../../../../../../_lib/core";
-import { User, UserId } from "../../../../../../_lib/_sharedKernel/user/domain/user.entity";
+import { User, UserId } from "../../../../../../_lib/_sharedKernel";
 import { UserRepository } from "../../../../ports/user.repository";
 
 export class LocalUserRepositorty implements UserRepository {
+    async findByEmail(email: string): Promise<User | null> {
+        return this.users.find(u => u.email === email) || null;
+    }
 
     private users: any[] = [];
 
@@ -13,8 +16,7 @@ export class LocalUserRepositorty implements UserRepository {
     }
 
     async get(id: UserId) {
-        const user = this.users.find(u => u.id === id);
-        return user;
+        return this.users.find(u => u.id === id) || null;
     }
 
     async getAll(query: QueryOptions<User>) {
