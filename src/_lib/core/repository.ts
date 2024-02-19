@@ -22,7 +22,7 @@ export type QueryOptions<E extends Entity<EntityId<string>, E['props']>> = {
 
 export type Repository<E extends Entity<EntityId<any>, E['props']>> = {
     getNextId: () => Promise<E['id']>
-    get: (id: E['id']) => Promise<E | undefined>
+    get: (id: E['id']) => Promise<E | null>
     getAll: (query: QueryOptions<E>) => Promise<PaginatedResult<E>>
     save: (entity: E) => Promise<E>
     delete: (id: E['id']) => Promise<void>
