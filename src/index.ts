@@ -1,11 +1,10 @@
-import fastify from 'fastify'
-import { UserModule } from './app/user/user.module'
+import fastify from 'fastify';
+import { initApp } from './app/app';
 
   
 const server = fastify()
 
-const userModule = new UserModule(server);
-userModule.init();
+initApp(server);
 
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {
