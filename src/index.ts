@@ -1,8 +1,10 @@
 import fastify from 'fastify';
 import { initApp } from './app/app';
 
-  
 const server = fastify()
+
+//const deps = makeDependencyContainer(server);
+// initApp(deps);
 
 initApp(server);
 
