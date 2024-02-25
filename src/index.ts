@@ -6,7 +6,7 @@ const server = fastify()
 //const deps = makeDependencyContainer(server);
 // initApp(deps);
 
-initApp(server);
+initApp({ server });
 
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {

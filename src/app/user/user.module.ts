@@ -5,13 +5,18 @@ import { HttpUserController } from './adapters/http/controllers/user.controller'
 import { UserRouter } from './adapters/http/routers/user.router';
 import { FindUserByIdUserUseCaseImpl } from './use-cases/find-user-by-id.use-case';
 
+type UserModuleDependencies = {
+    server: FastifyInstance
+}
+
 // TODO: should user module know about fastify?
 // should user module know about the database implementation?
 // maybe I should only inject those to user module and instatiate them higher?
 export class UserModule {
-    constructor(private readonly server: FastifyInstance) {}
+    constructor(private readonly deps: UserModuleDependencies) {}
 
     init() {
+        const { server } = this.deps;
         // DB adapters
         const userRepository = new LocalUserRepository();
 
@@ -29,7 +34,7 @@ export class UserModule {
         // so that app module can register them
         // router is tightly bound to the server
         // but controller is not
-        const userRouter = new UserRouter(userController, this.server);
+        const userRouter = new UserRouter(userController, server);
 
         userRouter.register();
     }
