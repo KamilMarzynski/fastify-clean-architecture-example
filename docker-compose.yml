@@ -1,0 +1,34 @@
+version: "3.6"
+
+services:
+  mongo:
+    image: mongo:4.2
+    container_name: mongo
+    hostname: monog
+    networks:
+      - app-network
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=app
+      - MONGO_INITDB_USER=user
+      - MONGO_INITDB_PWD=example
+
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - mongo
+    container_name: app
+    networks:
+      - app-network
+    ports:
+      - "8080:8080"
+
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
