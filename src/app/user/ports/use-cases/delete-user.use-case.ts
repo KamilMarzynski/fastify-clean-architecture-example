@@ -1,11 +1,11 @@
-import { UseCase, UseCaseInput, UseCaseOutput } from "../../../../_lib/core"
+import { UseCase, UseCaseInput, UseCaseOutput } from "../../../../_lib/core";
 
 export type DeleteUserInput = UseCaseInput<{
-    id: string,
-}>
+  id: string;
+}>;
 
 export type DeleteUserOutput = UseCaseOutput<{
-    id: string,
-}>
+  id: string;
+}>;
 
-export type DeleteUserUseCase = UseCase<DeleteUserInput, DeleteUserOutput>
+export type DeleteUserUseCase = UseCase<DeleteUserInput, DeleteUserOutput>;
