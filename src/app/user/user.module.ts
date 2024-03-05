@@ -2,9 +2,12 @@ import { FastifyInstance } from "fastify";
 import { LocalUserRepository } from "./adapters/db/repositories/local/user.repository";
 import { HttpUserController } from "./adapters/http/controllers/user.controller";
 import { UserRouter } from "./adapters/http/routers/user.router";
-import { CreateUserUseCaseImpl } from "./use-cases/create-user.use-case";
-import { DeleteUserUseCaseImpl } from "./use-cases/delete-user.use-case";
-import { FindUserByIdUserUseCaseImpl } from "./use-cases/find-user-by-id.use-case";
+import {
+  CreateUserUseCaseImpl,
+  DeleteUserUseCaseImpl,
+  FindUserByIdUserUseCaseImpl,
+  GetUsersUseCaseImpl,
+} from "./use-cases";
 
 type UserModuleDependencies = {
   server: FastifyInstance;
@@ -25,12 +28,14 @@ export class UserModule {
     const createUser = new CreateUserUseCaseImpl(userRepository);
     const findUserById = new FindUserByIdUserUseCaseImpl(userRepository);
     const deleteUser = new DeleteUserUseCaseImpl(userRepository);
+    const getUsers = new GetUsersUseCaseImpl(userRepository);
 
     // HTTP adapters
     const userController = new HttpUserController({
       createUserUseCase: createUser,
       findUserByIdUseCase: findUserById,
       deleteUserUseCase: deleteUser,
+      getUsersUseCase: getUsers,
     });
 
     // TODO: maybe user module shoud export controllers
