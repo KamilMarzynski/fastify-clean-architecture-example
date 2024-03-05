@@ -1,22 +1,22 @@
 import { UseCase, UseCaseInput, UseCaseOutput } from "../../../../_lib/core";
 
-export type GetUsersUserInput = UseCaseInput<{
+export type GetUsersInput = UseCaseInput<{
   orderBy: "firstName" | "lastName" | "email";
   order: "asc" | "desc";
   limit: number;
-  offset: number;
+  page: number;
 }>;
 
-export type GetUsersUserOutput = UseCaseOutput<
-  {
+export type GetUsersOutput = UseCaseOutput<{
+  page: number;
+  count: number;
+  maxPage: number;
+  data: {
     id: string;
     firstName: string;
     lastName: string;
     email: string;
-  }[]
->;
+  }[];
+}>;
 
-export type GetUsersUserUseCase = UseCase<
-  GetUsersUserInput,
-  GetUsersUserOutput
->;
+export type GetUsersUseCase = UseCase<GetUsersInput, GetUsersOutput>;
