@@ -9,6 +9,16 @@ const userByIdParams = {
   },
 };
 
+const filterUsersQuery = {
+  type: "object",
+  properties: {
+    limit: { type: "number" },
+    page: { type: "number" },
+    orderBy: { type: "string", enum: ["firstName", "lastName", "email"] },
+    order: { type: "string", enum: ["asc", "desc"] },
+  },
+};
+
 const createUserSchema = {
   body: {
     type: "object",
@@ -29,6 +39,10 @@ const deleteUserSchema = {
   params: userByIdParams,
 };
 
+const findUsersSchema = {
+  querystring: filterUsersQuery,
+};
+
 export class UserRouter {
   constructor(
     private readonly userController: HttpUserController,
@@ -38,6 +52,9 @@ export class UserRouter {
   public register() {
     this.server.get("/users/:id", { schema: findUserByIdSchema }, (req, res) =>
       this.userController.findUserById(req, res),
+    );
+    this.server.get("/users", { schema: findUsersSchema }, (req, res) =>
+      this.userController.getUsers(req, res),
     );
     this.server.delete("/users/:id", { schema: deleteUserSchema }, (req, res) =>
       this.userController.deleteUser(req, res),
