@@ -4,23 +4,27 @@ import { isUseCaseError } from "../../../../../_lib/core/use-case";
 import { CreateUserUseCase } from "../../../ports/use-cases/create-user.use-case";
 import { DeleteUserUseCase } from "../../../ports/use-cases/delete-user.use-case";
 import { FindUserByIdUserUseCase } from "../../../ports/use-cases/find-user-by-id.use-case";
+import { GetUsersUseCase } from "../../../ports/use-cases/get-users.use-case";
 import { USER_EXCEPTIONS } from "../../../use-cases/exceptions";
 
 export type HttpUserControllerDependencies = {
   createUserUseCase: CreateUserUseCase;
   findUserByIdUseCase: FindUserByIdUserUseCase;
   deleteUserUseCase: DeleteUserUseCase;
+  getUsersUseCase: GetUsersUseCase;
 };
 
 export class HttpUserController {
   private createUserUseCase: CreateUserUseCase;
   private findUserByIdUseCase: FindUserByIdUserUseCase;
   private deleteUserUseCase: DeleteUserUseCase;
+  private getUsersUseCase: GetUsersUseCase;
 
   constructor(deps: HttpUserControllerDependencies) {
     this.createUserUseCase = deps.createUserUseCase;
     this.findUserByIdUseCase = deps.findUserByIdUseCase;
     this.deleteUserUseCase = deps.deleteUserUseCase;
+    this.getUsersUseCase = deps.getUsersUseCase;
   }
 
   async createUser(req: Request, res: Response) {
@@ -56,6 +60,23 @@ export class HttpUserController {
         if (output.code === USER_EXCEPTIONS.USER_NOT_FOUND.code) {
           return res.status(404).send(output.message);
         }
+        return res.status(500).send(output.message);
+      }
+
+      return res.send(output.result);
+    } catch (error: any) {
+      return res.status(500).send(error.message);
+    }
+  }
+
+  async getUsers(req: Request, res: Response) {
+    try {
+      const input = {
+        data: req.query,
+      };
+      const output = await this.getUsersUseCase.execute(input);
+
+      if (isUseCaseError(output)) {
         return res.status(500).send(output.message);
       }
 
