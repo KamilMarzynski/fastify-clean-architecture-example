@@ -1,5 +1,5 @@
-export type EntityId<T> = {
-    value: T
+export interface EntityId<T> {
+  value: T
 }
 
 export const toValue = <T>(entityId: EntityId<T>): T => entityId.value

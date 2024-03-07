@@ -1,17 +1,17 @@
-import { UseCase, UseCaseInput, UseCaseOutput } from "../../../../_lib/core";
+import { type UseCase, type UseCaseInput, type UseCaseOutput } from '../../../../_lib/core'
 
 export type FindUserByIdUserInput = UseCaseInput<{
-  id: string;
-}>;
+  id: string
+}>
 
 export type FindUserByIdUserOutput = UseCaseOutput<{
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-}>;
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+}>
 
 export type FindUserByIdUserUseCase = UseCase<
-  FindUserByIdUserInput,
-  FindUserByIdUserOutput
->;
+FindUserByIdUserInput,
+FindUserByIdUserOutput
+>

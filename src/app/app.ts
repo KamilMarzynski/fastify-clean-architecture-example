@@ -1,11 +1,11 @@
-import { FastifyInstance } from "fastify";
-import { UserModule } from "./user/user.module";
+import { type FastifyInstance } from 'fastify'
+import { UserModule } from './user/user.module'
 
-type AppDependencies = {
-  server: FastifyInstance;
-};
+interface AppDependencies {
+  server: FastifyInstance
+}
 
-export const initApp = (deps: AppDependencies) => {
-  const userModule = new UserModule(deps);
-  userModule.init();
-};
+export const initApp = (deps: AppDependencies): void => {
+  const userModule = new UserModule(deps)
+  userModule.init()
+}

@@ -1,70 +1,67 @@
-import { HttpUserController } from "../controllers/user.controller";
-import { FastifyInstance } from "fastify";
+import { type HttpUserController } from '../controllers/user.controller'
+import { type FastifyInstance } from 'fastify'
 
 const userByIdParams = {
-  type: "object",
-  required: ["id"],
+  type: 'object',
+  required: ['id'],
   properties: {
-    id: { type: "string" },
-  },
-};
+    id: { type: 'string' }
+  }
+}
 
 const filterUsersQuery = {
-  type: "object",
+  type: 'object',
   properties: {
-    limit: { type: "number" },
-    page: { type: "number" },
-    orderBy: { type: "string", enum: ["firstName", "lastName", "email"] },
-    order: { type: "string", enum: ["asc", "desc"] },
-  },
-};
+    limit: { type: 'number' },
+    page: { type: 'number' },
+    orderBy: { type: 'string', enum: ['firstName', 'lastName', 'email'] },
+    order: { type: 'string', enum: ['asc', 'desc'] }
+  }
+}
 
 const createUserSchema = {
   body: {
-    type: "object",
-    required: ["firstName", "lastName", "email"],
+    type: 'object',
+    required: ['firstName', 'lastName', 'email'],
     properties: {
-      firstName: { type: "string" },
-      lastName: { type: "string" },
-      email: { type: "string", format: "email" },
-    },
-  },
-};
+      firstName: { type: 'string' },
+      lastName: { type: 'string' },
+      email: { type: 'string', format: 'email' }
+    }
+  }
+}
 
 const findUserByIdSchema = {
-  params: userByIdParams,
-};
+  params: userByIdParams
+}
 
 const deleteUserSchema = {
-  params: userByIdParams,
-};
+  params: userByIdParams
+}
 
 const findUsersSchema = {
-  querystring: filterUsersQuery,
-};
+  querystring: filterUsersQuery
+}
 
 export class UserRouter {
-  constructor(
+  constructor (
     private readonly userController: HttpUserController,
-    private readonly server: FastifyInstance,
+    private readonly server: FastifyInstance
   ) {}
 
-  public register() {
-    this.server.get("/users/:id", { schema: findUserByIdSchema }, (req, res) =>
-      this.userController.findUserById(req, res),
-    );
-    this.server.get("/users", { schema: findUsersSchema }, (req, res) =>
-      this.userController.getUsers(req, res),
-    );
-    this.server.delete("/users/:id", { schema: deleteUserSchema }, (req, res) =>
-      this.userController.deleteUser(req, res),
-    );
+  public register (): void {
+    this.server.get('/users/:id', { schema: findUserByIdSchema }, async (req, res) => { await this.userController.findUserById(req, res) }
+    )
+    this.server.get('/users', { schema: findUsersSchema }, async (req, res) => { await this.userController.getUsers(req, res) }
+    )
+    this.server.delete('/users/:id', { schema: deleteUserSchema }, async (req, res) => { await this.userController.deleteUser(req, res) }
+    )
     this.server.post(
-      "/users",
+      '/users',
       {
-        schema: createUserSchema,
+        schema: createUserSchema
       },
-      (req, res) => this.userController.createUser(req, res),
-    );
+      async (req, res) => { await this.userController.createUser(req, res) }
+    )
   }
 }

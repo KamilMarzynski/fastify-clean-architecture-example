@@ -1,29 +1,29 @@
-import type { Entity } from "./entity";
-import { EntityId } from "./entityId";
+import type { Entity } from './entity'
+import { type EntityId } from './entityId'
 
 type Order = 'asc' | 'desc'
-type OrderBy<E extends Entity<EntityId<string>, E['props']>> = keyof E['props'];
+type OrderBy<E extends Entity<EntityId<string>, E['props']>> = keyof E['props']
 
-type PaginatedResult<E extends Entity<EntityId<string>, E['props']>> = {
-    data: E[];
-    pagination: {
-        page: number;
-        count: number;
-        maxPage: number;
-    }
+export interface PaginatedResult<E extends Entity<EntityId<string>, E['props']>> {
+  data: E[]
+  pagination: {
+    page: number
+    count: number
+    maxPage: number
+  }
 }
 
-export type QueryOptions<E extends Entity<EntityId<string>, E['props']>> = {
-    limit?: number;
-    page?: number;
-    orderBy?: OrderBy<E>;
-    order?: Order;
+export interface QueryOptions<E extends Entity<EntityId<string>, E['props']>> {
+  limit?: number
+  page?: number
+  orderBy?: OrderBy<E>
+  order?: Order
 }
 
-export type Repository<E extends Entity<EntityId<any>, E['props']>> = {
-    getNextId: () => Promise<E['id']>
-    get: (id: E['id']) => Promise<E | null>
-    getAll: (query: QueryOptions<E>) => Promise<PaginatedResult<E>>
-    save: (entity: E) => Promise<E>
-    delete: (id: E['id']) => Promise<void>
+export interface Repository<E extends Entity<EntityId<any>, E['props']>> {
+  getNextId: () => Promise<E['id']>
+  get: (id: E['id']) => Promise<E | null>
+  getAll: (query: QueryOptions<E>) => Promise<PaginatedResult<E>>
+  save: (entity: E) => Promise<E>
+  delete: (id: E['id']) => Promise<void>
 }

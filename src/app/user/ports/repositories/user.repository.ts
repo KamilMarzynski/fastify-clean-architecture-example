@@ -1,6 +1,6 @@
-import { Repository } from "../../../../_lib/core";
-import { User } from "../../../../_lib/_sharedKernel";
+import { type Repository } from '../../../../_lib/core'
+import { type User } from '../../../../_lib/_sharedKernel'
 
 export type UserRepository = Repository<User> & {
-  findByEmail(email: string): Promise<User | null>;
-};
+  findByEmail: (email: string) => Promise<User | null>
+}

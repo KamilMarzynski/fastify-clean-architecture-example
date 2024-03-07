@@ -1,4 +1,4 @@
-export { EntityId } from "./entityId";
-export { Entity } from "./entity";
-export { Repository, QueryOptions } from "./repository";
-export { UseCase, UseCaseExceptionOutput, UseCaseInput, UseCaseOutput, UseCaseSuccessOutput } from "./use-case";
+export type { EntityId } from './entityId'
+export type { Entity } from './entity'
+export type { Repository, QueryOptions, PaginatedResult } from './repository'
+export type { UseCase, UseCaseExceptionOutput, UseCaseInput, UseCaseOutput, UseCaseSuccessOutput } from './use-case'

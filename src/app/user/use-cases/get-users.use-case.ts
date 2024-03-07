@@ -1,23 +1,23 @@
-import { toValue } from "../../../_lib/core/entityId";
-import { UserRepository } from "../ports/repositories/user.repository";
+import { toValue } from '../../../_lib/core/entityId'
+import { type UserRepository } from '../ports/repositories/user.repository'
 import {
-  GetUsersInput,
-  GetUsersOutput,
-  GetUsersUseCase,
-} from "../ports/use-cases/get-users.use-case";
+  type GetUsersInput,
+  type GetUsersOutput,
+  type GetUsersUseCase
+} from '../ports/use-cases/get-users.use-case'
 
 export class GetUsersUseCaseImpl implements GetUsersUseCase {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor (private readonly userRepository: UserRepository) {}
 
-  async execute(input: GetUsersInput): Promise<GetUsersOutput> {
-    const { limit, order, page, orderBy } = input.data;
+  async execute (input: GetUsersInput): Promise<GetUsersOutput> {
+    const { limit, order, page, orderBy } = input.data
 
     const result = await this.userRepository.getAll({
       limit,
       order,
       page,
-      orderBy,
-    });
+      orderBy
+    })
 
     return {
       result: {
@@ -28,9 +28,9 @@ export class GetUsersUseCaseImpl implements GetUsersUseCase {
           id: toValue(user.id),
           firstName: user.props.firstName,
           lastName: user.props.lastName,
-          email: user.props.email,
-        })),
-      },
-    };
+          email: user.props.email
+        }))
+      }
+    }
   }
 }
