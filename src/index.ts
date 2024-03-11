@@ -1,14 +1,15 @@
-import fastify from 'fastify'
 import { initApp } from './app/app'
+import { makeDependencyContainer } from './_lib/core/di'
+import { makeConfig } from './_lib/core/config'
 
-const server = fastify()
+const config = makeConfig()
+const deps = makeDependencyContainer({ config })
 
-// const deps = makeDependencyContainer(server);
-// initApp(deps);
+initApp(deps)
 
-initApp({ server })
+const { server } = deps
 
-server.listen({ host: '0.0.0.0', port: 8080 }, (err, address) => {
+server.listen({ host: '0.0.0.0', port: config.port }, (err, address) => {
   if (err !== null) {
     console.error(err)
     process.exit(1)
