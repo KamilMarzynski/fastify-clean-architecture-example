@@ -18,16 +18,26 @@ const filterUsersQuery = {
     order: { type: 'string', enum: ['asc', 'desc'] }
   }
 }
+const userBodyProperties = {
+  firstName: { type: 'string' },
+  lastName: { type: 'string' },
+  email: { type: 'string', format: 'email' }
+}
 
 const createUserSchema = {
   body: {
     type: 'object',
     required: ['firstName', 'lastName', 'email'],
-    properties: {
-      firstName: { type: 'string' },
-      lastName: { type: 'string' },
-      email: { type: 'string', format: 'email' }
-    }
+    properties: userBodyProperties
+  }
+}
+
+const updateUserSchema = {
+  params: userByIdParams,
+  body: {
+    type: 'object',
+    properties: userBodyProperties
+
   }
 }
 
@@ -50,18 +60,10 @@ export class UserRouter {
   ) {}
 
   public register (): void {
-    this.server.get('/users/:id', { schema: findUserByIdSchema }, async (req, res) => { await this.userController.findUserById(req, res) }
-    )
-    this.server.get('/users', { schema: findUsersSchema }, async (req, res) => { await this.userController.getUsers(req, res) }
-    )
-    this.server.delete('/users/:id', { schema: deleteUserSchema }, async (req, res) => { await this.userController.deleteUser(req, res) }
-    )
-    this.server.post(
-      '/users',
-      {
-        schema: createUserSchema
-      },
-      async (req, res) => { await this.userController.createUser(req, res) }
-    )
+    this.server.get('/users/:id', { schema: findUserByIdSchema }, async (req, res) => { await this.userController.findUserById(req, res) })
+    this.server.get('/users', { schema: findUsersSchema }, async (req, res) => { await this.userController.getUsers(req, res) })
+    this.server.delete('/users/:id', { schema: deleteUserSchema }, async (req, res) => { await this.userController.deleteUser(req, res) })
+    this.server.post('/users', { schema: createUserSchema }, async (req, res) => { await this.userController.createUser(req, res) })
+    this.server.put('/users/:id', { schema: updateUserSchema }, async (req, res) => { await this.userController.updateUser(req, res) })
   }
 }
