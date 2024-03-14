@@ -1,10 +1,7 @@
 import { type Request, type Response } from '../../../../../_lib/core/http'
 import { isUseCaseError } from '../../../../../_lib/core/use-case'
 
-import { type CreateUserUseCase } from '../../../ports/use-cases/create-user.use-case'
-import { type DeleteUserUseCase } from '../../../ports/use-cases/delete-user.use-case'
-import { type FindUserByIdUserUseCase } from '../../../ports/use-cases/find-user-by-id.use-case'
-import { type GetUsersUseCase } from '../../../ports/use-cases/get-users.use-case'
+import { type CreateUserUseCase, type DeleteUserUseCase, type FindUserByIdUserUseCase, type GetUsersUseCase, type UpdateUserInput, type UpdateUserUseCase } from '../../../ports/use-cases'
 import { USER_EXCEPTIONS } from '../../../use-cases/exceptions'
 
 export interface HttpUserControllerDependencies {
@@ -12,6 +9,7 @@ export interface HttpUserControllerDependencies {
   findUserByIdUseCase: FindUserByIdUserUseCase
   deleteUserUseCase: DeleteUserUseCase
   getUsersUseCase: GetUsersUseCase
+  updateUserUseCase: UpdateUserUseCase
 }
 
 export class HttpUserController {
@@ -19,12 +17,14 @@ export class HttpUserController {
   private readonly findUserByIdUseCase: FindUserByIdUserUseCase
   private readonly deleteUserUseCase: DeleteUserUseCase
   private readonly getUsersUseCase: GetUsersUseCase
+  private readonly updateUserUseCase: UpdateUserUseCase
 
   constructor (deps: HttpUserControllerDependencies) {
     this.createUserUseCase = deps.createUserUseCase
     this.findUserByIdUseCase = deps.findUserByIdUseCase
     this.deleteUserUseCase = deps.deleteUserUseCase
     this.getUsersUseCase = deps.getUsersUseCase
+    this.updateUserUseCase = deps.updateUserUseCase
   }
 
   async createUser (req: Request, res: Response): Promise<void> {
@@ -101,6 +101,35 @@ export class HttpUserController {
       if (isUseCaseError(output)) {
         if (output.code === USER_EXCEPTIONS.USER_NOT_FOUND.code) {
           res.status(404).send(output.message)
+          return
+        }
+        res.status(500).send(output.message)
+        return
+      }
+
+      res.send(output.result)
+    } catch (error: any) {
+      res.status(500).send(error.message)
+    }
+  }
+
+  async updateUser (req: Request, res: Response): Promise<void> {
+    try {
+      const input: UpdateUserInput = {
+        data: {
+          id: req.params.id,
+          data: req.body
+        }
+      }
+      const output = await this.updateUserUseCase.execute(input)
+
+      if (isUseCaseError(output)) {
+        if (output.code === USER_EXCEPTIONS.USER_NOT_FOUND.code) {
+          res.status(404).send(output.message)
+          return
+        }
+        if (output.code === USER_EXCEPTIONS.EMAIL_TAKEN.code) {
+          res.status(409).send(output.message)
           return
         }
         res.status(500).send(output.message)
