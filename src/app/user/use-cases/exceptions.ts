@@ -8,5 +8,9 @@ export const USER_EXCEPTIONS: Record<string, UseCaseExceptionOutput> = {
   USER_NOT_FOUND: {
     code: 'USER_002',
     message: 'User not found'
+  },
+  EMAIL_TAKEN: {
+    code: 'USER_003',
+    message: 'Email already taken'
   }
 } as const
