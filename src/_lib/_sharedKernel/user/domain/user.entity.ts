@@ -8,5 +8,9 @@ export interface UserProps {
 }
 
 export class User implements Entity<UserId, UserProps> {
-  constructor (readonly id: UserId, readonly props: UserProps) {}
+  constructor (readonly id: UserId, readonly props: UserProps) { }
+
+  public update (props: Partial<UserProps>): User {
+    return new User(this.id, { ...this.props, ...props })
+  }
 }
