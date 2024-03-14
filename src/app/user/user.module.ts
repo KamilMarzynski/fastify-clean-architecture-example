@@ -6,7 +6,8 @@ import {
   CreateUserUseCaseImpl,
   DeleteUserUseCaseImpl,
   FindUserByIdUserUseCaseImpl,
-  GetUsersUseCaseImpl
+  GetUsersUseCaseImpl,
+  UpdateUserUseCaseImpl
 } from './use-cases'
 
 interface UserModuleDependencies {
@@ -29,13 +30,15 @@ export class UserModule {
     const findUserById = new FindUserByIdUserUseCaseImpl(userRepository)
     const deleteUser = new DeleteUserUseCaseImpl(userRepository)
     const getUsers = new GetUsersUseCaseImpl(userRepository)
+    const updateUser = new UpdateUserUseCaseImpl(userRepository)
 
     // HTTP adapters
     const userController = new HttpUserController({
       createUserUseCase: createUser,
       findUserByIdUseCase: findUserById,
       deleteUserUseCase: deleteUser,
-      getUsersUseCase: getUsers
+      getUsersUseCase: getUsers,
+      updateUserUseCase: updateUser
     })
 
     // TODO: maybe user module shoud export controllers
