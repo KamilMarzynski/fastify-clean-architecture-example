@@ -1,5 +1,5 @@
-import { User } from '../../../_lib/_sharedKernel'
 import { toValue } from '../../../_lib/core/entityId'
+import { User } from '../domain'
 import { type UserRepository } from '../ports/repositories/user.repository'
 import {
   type CreateUserInput,

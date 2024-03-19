@@ -1,5 +1,5 @@
 import { type QueryOptions, type PaginatedResult } from '../../../../../../_lib/core'
-import { type User, type UserId } from '../../../../../../_lib/_sharedKernel'
+import { type User, type UserId } from '../../../../domain'
 import { type UserRepository } from '../../../../ports/repositories/user.repository'
 
 export class LocalUserRepository implements UserRepository {
