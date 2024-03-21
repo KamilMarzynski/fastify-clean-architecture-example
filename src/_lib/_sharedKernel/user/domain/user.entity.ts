@@ -1,4 +1,4 @@
-import { type Entity, type EntityId } from '../../../_lib/core'
+import { type Entity, type EntityId } from '../../../core'
 
 export type UserId = EntityId<string>
 export interface UserProps {

@@ -1,6 +1,6 @@
 import { ObjectId, type Db, type WithId, type Document } from 'mongodb'
 import { type QueryOptions, type PaginatedResult } from '../../../../../../_lib/core'
-import { User, type UserId } from '../../../../domain'
+import { User, type UserId } from '../../../../../../_lib/_sharedKernel'
 import { type UserRepository } from '../../../../ports/repositories/user.repository'
 import { toEntityId } from '../../../../../../_lib/core/entityId'
 
