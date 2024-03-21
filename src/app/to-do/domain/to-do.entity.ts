@@ -1,3 +1,4 @@
+import { type UserId } from '../../../_lib/_sharedKernel'
 import { type Entity, type EntityId } from '../../../_lib/core'
 
 export type ToDoId = EntityId<string>
@@ -5,6 +6,7 @@ export interface ToDoProps {
   readonly title: string
   readonly description: string
   readonly isCompleted: boolean
+  readonly ownerId: UserId
 }
 
 export class ToDo implements Entity<ToDoId, ToDoProps> {
