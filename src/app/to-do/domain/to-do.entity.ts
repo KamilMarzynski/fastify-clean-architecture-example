@@ -12,6 +12,10 @@ export interface ToDoProps {
 export class ToDo implements Entity<ToDoId, ToDoProps> {
   constructor (readonly id: ToDoId, readonly props: ToDoProps) { }
 
+  public static create (id: ToDoId, props: Omit<ToDoProps, 'isCompleted'>): ToDo {
+    return new ToDo(id, { ...props, isCompleted: false })
+  }
+
   public complete (): ToDo {
     return new ToDo(this.id, { ...this.props, isCompleted: true })
   }
