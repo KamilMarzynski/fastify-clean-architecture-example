@@ -4,7 +4,7 @@ import {
   type DeleteUserInput,
   type DeleteUserOutput,
   type DeleteUserUseCase
-} from '../ports/use-cases/delete-user.use-case'
+} from '../ports/use-cases'
 import { USER_EXCEPTIONS } from './exceptions'
 
 export class DeleteUserUseCaseImpl implements DeleteUserUseCase {

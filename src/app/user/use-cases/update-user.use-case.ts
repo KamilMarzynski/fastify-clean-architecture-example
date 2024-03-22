@@ -4,7 +4,7 @@ import {
   type UpdateUserInput,
   type UpdateUserOutput,
   type UpdateUserUseCase
-} from '../ports/use-cases/update-user.use-case'
+} from '../ports/use-cases'
 import { USER_EXCEPTIONS } from './exceptions'
 
 export class UpdateUserUseCaseImpl implements UpdateUserUseCase {

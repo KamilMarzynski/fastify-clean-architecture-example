@@ -5,7 +5,7 @@ import {
   type FindUserByIdUserUseCase,
   type FindUserByIdUserInput,
   type FindUserByIdUserOutput
-} from '../ports/use-cases/find-user-by-id.use-case'
+} from '../ports/use-cases'
 
 export class FindUserByIdUserUseCaseImpl implements FindUserByIdUserUseCase {
   constructor (private readonly userRepository: UserRepository) {}

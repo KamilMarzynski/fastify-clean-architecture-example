@@ -5,7 +5,7 @@ import {
   type CreateUserInput,
   type CreateUserOutput,
   type CreateUserUseCase
-} from '../ports/use-cases/create-user.use-case'
+} from '../ports/use-cases'
 import { USER_EXCEPTIONS } from './exceptions'
 
 export class CreateUserUseCaseImpl implements CreateUserUseCase {

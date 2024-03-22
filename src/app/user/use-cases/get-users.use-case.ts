@@ -4,7 +4,7 @@ import {
   type GetUsersInput,
   type GetUsersOutput,
   type GetUsersUseCase
-} from '../ports/use-cases/get-users.use-case'
+} from '../ports/use-cases'
 
 export class GetUsersUseCaseImpl implements GetUsersUseCase {
   constructor (private readonly userRepository: UserRepository) {}
