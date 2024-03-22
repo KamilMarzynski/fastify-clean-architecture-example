@@ -6,6 +6,13 @@ export type FindToDoByIdInput = UseCaseInput<{
 
 export type FindToDoByIdOutput = UseCaseOutput<{
   id: string
+  title: string
+  description: string
+  completed: boolean
+  owner: {
+    id: string
+    name: string
+  }
 }>
 
 export type FindToDoByIdUseCase = UseCase<FindToDoByIdInput, FindToDoByIdOutput>
