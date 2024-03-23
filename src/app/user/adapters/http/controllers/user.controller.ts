@@ -1,4 +1,4 @@
-import { type Request, type Response } from '../../../../../_lib/core/http'
+import { type Request, type Response, HttpController } from '../../../../../_lib/core/http'
 import { isUseCaseError } from '../../../../../_lib/core/use-case'
 
 import { type CreateUserUseCase, type DeleteUserUseCase, type FindUserByIdUserUseCase, type GetUsersUseCase, type UpdateUserInput, type UpdateUserUseCase } from '../../../ports/use-cases'
@@ -12,7 +12,7 @@ export interface HttpUserControllerDependencies {
   updateUserUseCase: UpdateUserUseCase
 }
 
-export class HttpUserController {
+export class HttpUserController extends HttpController {
   private readonly createUserUseCase: CreateUserUseCase
   private readonly findUserByIdUseCase: FindUserByIdUserUseCase
   private readonly deleteUserUseCase: DeleteUserUseCase
@@ -20,14 +20,44 @@ export class HttpUserController {
   private readonly updateUserUseCase: UpdateUserUseCase
 
   constructor (deps: HttpUserControllerDependencies) {
+    super()
     this.createUserUseCase = deps.createUserUseCase
     this.findUserByIdUseCase = deps.findUserByIdUseCase
     this.deleteUserUseCase = deps.deleteUserUseCase
     this.getUsersUseCase = deps.getUsersUseCase
     this.updateUserUseCase = deps.updateUserUseCase
+
+    // TODO: move to decorators for each method
+    this.routeHandlers = [
+      {
+        method: 'post',
+        path: '/users',
+        handler: this.createUser
+      },
+      {
+        method: 'get',
+        path: '/users',
+        handler: this.getUsers
+      },
+      {
+        method: 'get',
+        path: '/users/:id',
+        handler: this.findUserById
+      },
+      {
+        method: 'delete',
+        path: '/users/:id',
+        handler: this.deleteUser
+      },
+      {
+        method: 'put',
+        path: '/users/:id',
+        handler: this.updateUser
+      }
+    ]
   }
 
-  async createUser (req: Request, res: Response): Promise<void> {
+  private readonly createUser = async (req: Request, res: Response): Promise<void> => {
     try {
       const input = {
         data: req.body
@@ -51,7 +81,7 @@ export class HttpUserController {
     }
   }
 
-  async findUserById (req: Request, res: Response): Promise<void> {
+  private readonly findUserById = async (req: Request, res: Response): Promise<void> => {
     try {
       const input = {
         data: req.params
@@ -73,7 +103,7 @@ export class HttpUserController {
     }
   }
 
-  async getUsers (req: Request, res: Response): Promise<void> {
+  private readonly getUsers = async (req: Request, res: Response): Promise<void> => {
     try {
       const input = {
         data: req.query
@@ -91,7 +121,7 @@ export class HttpUserController {
     }
   }
 
-  async deleteUser (req: Request, res: Response): Promise<void> {
+  private readonly deleteUser = async (req: Request, res: Response): Promise<void> => {
     try {
       const input = {
         data: req.params
@@ -113,7 +143,7 @@ export class HttpUserController {
     }
   }
 
-  async updateUser (req: Request, res: Response): Promise<void> {
+  private readonly updateUser = async (req: Request, res: Response): Promise<void> => {
     try {
       const input: UpdateUserInput = {
         data: {

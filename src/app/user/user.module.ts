@@ -1,7 +1,5 @@
-import { type FastifyInstance } from 'fastify'
 import { LocalUserRepository } from './adapters/db/repositories/local/user.repository'
 import { HttpUserController } from './adapters/http/controllers/user.controller'
-import { UserRouter } from './adapters/http/routers/user.router'
 import {
   CreateUserUseCaseImpl,
   DeleteUserUseCaseImpl,
@@ -13,36 +11,39 @@ import { type Db } from 'mongodb'
 import { type AppConfig } from '../../_lib/core/config'
 
 interface UserModuleDependencies {
-  server: FastifyInstance
   db: Db
   config: AppConfig
+}
+
+interface UserModuleProviders {
+  controllers: HttpUserController[]
 }
 
 export class UserModule {
   constructor (private readonly deps: UserModuleDependencies) {}
 
-  init (): void {
-    const { server } = this.deps
+  init (): UserModuleProviders {
     // Driven adapters
     const userRepository = new LocalUserRepository()
 
     // Application
-    const createUser = new CreateUserUseCaseImpl(userRepository)
-    const findUserById = new FindUserByIdUserUseCaseImpl(userRepository)
-    const deleteUser = new DeleteUserUseCaseImpl(userRepository)
-    const getUsers = new GetUsersUseCaseImpl(userRepository)
-    const updateUser = new UpdateUserUseCaseImpl(userRepository)
+    const createUserUseCase = new CreateUserUseCaseImpl(userRepository)
+    const findUserByIdUseCase = new FindUserByIdUserUseCaseImpl(userRepository)
+    const deleteUserUseCase = new DeleteUserUseCaseImpl(userRepository)
+    const getUsersUseCase = new GetUsersUseCaseImpl(userRepository)
+    const updateUserUseCase = new UpdateUserUseCaseImpl(userRepository)
 
     // Driving adapters
     const userController = new HttpUserController({
-      createUserUseCase: createUser,
-      findUserByIdUseCase: findUserById,
-      deleteUserUseCase: deleteUser,
-      getUsersUseCase: getUsers,
-      updateUserUseCase: updateUser
+      createUserUseCase,
+      findUserByIdUseCase,
+      deleteUserUseCase,
+      getUsersUseCase,
+      updateUserUseCase
     })
-    const userRouter = new UserRouter(userController, server)
 
-    userRouter.register()
+    return {
+      controllers: [userController]
+    }
   }
 }
