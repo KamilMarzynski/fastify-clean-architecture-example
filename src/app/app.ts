@@ -1,15 +1,17 @@
-import { type FastifyInstance } from 'fastify'
-import { UserModule } from './user/user.module'
 import { type Db } from 'mongodb'
+import { UserModule } from './user/user.module'
+import { type HttpController } from '../_lib/core/http'
 import { type AppConfig } from '../_lib/core/config'
 
-interface AppDependencies {
-  server: FastifyInstance
+export interface InitAppDependencies {
   db: Db
   config: AppConfig
+  controllers: HttpController[]
 }
 
-export const initApp = (deps: AppDependencies): void => {
+export const initApp = (deps: InitAppDependencies): void => {
   const userModule = new UserModule(deps)
-  userModule.init()
+  const userModuleProviders = userModule.init()
+
+  deps.controllers.push(...userModuleProviders.controllers)
 }
