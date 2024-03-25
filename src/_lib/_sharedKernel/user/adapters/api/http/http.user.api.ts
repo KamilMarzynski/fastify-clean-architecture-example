@@ -1,7 +1,7 @@
 import http from 'http'
-import { toEntityId } from '../../../../core/entityId'
-import { User, type UserId } from '../../domain'
-import { type UserApi } from '../../ports/api/user.api'
+import { toEntityId } from '../../../../../core/entityId'
+import { User, type UserId } from '../../../domain'
+import { type UserApi } from '../../../ports/api/user.api'
 
 interface UserReadModel {
   id: string
