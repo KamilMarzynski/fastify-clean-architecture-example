@@ -1,25 +1,18 @@
 import { type Request, type Response, HttpController } from '../../../../../_lib/core/http'
 import { isUseCaseError } from '../../../../../_lib/core/use-case'
+import { type UserControllerDependencies, type UserController } from '../../../ports/controllers/user.controller'
 
 import { type CreateUserUseCase, type DeleteUserUseCase, type FindUserByIdUserUseCase, type GetUsersUseCase, type UpdateUserInput, type UpdateUserUseCase } from '../../../ports/use-cases'
 import { USER_EXCEPTIONS } from '../../../use-cases/exceptions'
 
-export interface HttpUserControllerDependencies {
-  createUserUseCase: CreateUserUseCase
-  findUserByIdUseCase: FindUserByIdUserUseCase
-  deleteUserUseCase: DeleteUserUseCase
-  getUsersUseCase: GetUsersUseCase
-  updateUserUseCase: UpdateUserUseCase
-}
+export class HttpUserController extends HttpController implements UserController {
+  protected readonly createUserUseCase: CreateUserUseCase
+  protected readonly findUserByIdUseCase: FindUserByIdUserUseCase
+  protected readonly deleteUserUseCase: DeleteUserUseCase
+  protected readonly getUsersUseCase: GetUsersUseCase
+  protected readonly updateUserUseCase: UpdateUserUseCase
 
-export class HttpUserController extends HttpController {
-  private readonly createUserUseCase: CreateUserUseCase
-  private readonly findUserByIdUseCase: FindUserByIdUserUseCase
-  private readonly deleteUserUseCase: DeleteUserUseCase
-  private readonly getUsersUseCase: GetUsersUseCase
-  private readonly updateUserUseCase: UpdateUserUseCase
-
-  constructor (deps: HttpUserControllerDependencies) {
+  constructor (deps: UserControllerDependencies) {
     super()
     this.createUserUseCase = deps.createUserUseCase
     this.findUserByIdUseCase = deps.findUserByIdUseCase
@@ -28,7 +21,7 @@ export class HttpUserController extends HttpController {
     this.updateUserUseCase = deps.updateUserUseCase
 
     // TODO: move to decorators for each method
-    this.routeHandlers = [
+    this.handlers = [
       {
         method: 'post',
         path: '/users',
@@ -57,7 +50,7 @@ export class HttpUserController extends HttpController {
     ]
   }
 
-  private readonly createUser = async (req: Request, res: Response): Promise<void> => {
+  public readonly createUser = async (req: Request, res: Response): Promise<void> => {
     try {
       const input = {
         data: req.body
@@ -81,7 +74,7 @@ export class HttpUserController extends HttpController {
     }
   }
 
-  private readonly findUserById = async (req: Request, res: Response): Promise<void> => {
+  public readonly findUserById = async (req: Request, res: Response): Promise<void> => {
     try {
       const input = {
         data: req.params
@@ -103,7 +96,7 @@ export class HttpUserController extends HttpController {
     }
   }
 
-  private readonly getUsers = async (req: Request, res: Response): Promise<void> => {
+  public readonly getUsers = async (req: Request, res: Response): Promise<void> => {
     try {
       const input = {
         data: req.query
@@ -121,7 +114,7 @@ export class HttpUserController extends HttpController {
     }
   }
 
-  private readonly deleteUser = async (req: Request, res: Response): Promise<void> => {
+  public readonly deleteUser = async (req: Request, res: Response): Promise<void> => {
     try {
       const input = {
         data: req.params
@@ -143,7 +136,7 @@ export class HttpUserController extends HttpController {
     }
   }
 
-  private readonly updateUser = async (req: Request, res: Response): Promise<void> => {
+  public readonly updateUser = async (req: Request, res: Response): Promise<void> => {
     try {
       const input: UpdateUserInput = {
         data: {
