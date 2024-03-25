@@ -1,5 +1,7 @@
 // TODO: is it actually good to wrap request and response?
 
+import { Controller } from './controller'
+
 export interface Request {
   body: any
   query: any
@@ -22,10 +24,7 @@ export interface HttpRoute {
   handler: HttpRouteHandler
 }
 
-export abstract class HttpController {
-  protected routeHandlers: HttpRoute[] = []
-
-  get routes (): HttpRoute[] {
-    return this.routeHandlers
-  }
+export abstract class HttpController extends Controller<HttpRoute> {
+  protected handlers: HttpRoute[] = []
+  public readonly type = 'http'
 }
