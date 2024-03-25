@@ -1,17 +1,9 @@
-import { type Db } from 'mongodb'
 import { UserModule } from './user/user.module'
-import { type HttpController } from '../_lib/core/http'
-import { type AppConfig } from '../_lib/core/config'
+import { type AppDependencies } from '../_lib/core/di'
 
-export interface InitAppDependencies {
-  db: Db
-  config: AppConfig
-  controllers: HttpController[]
-}
-
-export const initApp = (deps: InitAppDependencies): void => {
+export const initApp = (deps: AppDependencies): void => {
   const userModule = new UserModule(deps)
   const userModuleProviders = userModule.init()
 
-  deps.controllers.push(...userModuleProviders.controllers)
+  deps.controllers = [...userModuleProviders.controllers]
 }

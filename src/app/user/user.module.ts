@@ -1,5 +1,5 @@
 import { LocalUserRepository } from './adapters/db/repositories/local/user.repository'
-import { HttpUserController } from './adapters/http/controllers/user.controller'
+import { HttpUserController } from './adapters/controllers/http/user.controller'
 import {
   CreateUserUseCaseImpl,
   DeleteUserUseCaseImpl,
@@ -9,14 +9,17 @@ import {
 } from './use-cases'
 import { type Db } from 'mongodb'
 import { type AppConfig } from '../../_lib/core/config'
+import { type Controller } from '../../_lib/core/controller'
+import { type UserControllerFactory } from './ports/controllers/user.controller.factory'
 
 interface UserModuleDependencies {
   db: Db
   config: AppConfig
+  controllerFactory: UserControllerFactory
 }
 
 interface UserModuleProviders {
-  controllers: HttpUserController[]
+  controllers: Controller[]
 }
 
 export class UserModule {
