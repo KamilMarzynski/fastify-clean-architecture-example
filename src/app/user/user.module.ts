@@ -1,5 +1,4 @@
 import { LocalUserRepository } from './adapters/db/repositories/local/user.repository'
-import { HttpUserController } from './adapters/controllers/http/user.controller'
 import {
   CreateUserUseCaseImpl,
   DeleteUserUseCaseImpl,
@@ -37,7 +36,7 @@ export class UserModule {
     const updateUserUseCase = new UpdateUserUseCaseImpl(userRepository)
 
     // Driving adapters
-    const userController = new HttpUserController({
+    const userController = this.deps.controllerFactory.createUserController({
       createUserUseCase,
       findUserByIdUseCase,
       deleteUserUseCase,
