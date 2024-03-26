@@ -1,4 +1,3 @@
-import { LocalUserRepository } from './adapters/db/repositories/local/user.repository'
 import {
   CreateUserUseCaseImpl,
   DeleteUserUseCaseImpl,
@@ -10,6 +9,7 @@ import { type Db } from 'mongodb'
 import { type AppConfig } from '../../_lib/core/config'
 import { type Controller } from '../../_lib/core/controller'
 import { type UserControllerFactory } from './ports/controllers/user.controller.factory'
+import { MongoUserRepository } from './adapters/db/repositories/mongo/user.repository'
 
 interface UserModuleDependencies {
   db: Db
@@ -26,7 +26,7 @@ export class UserModule {
 
   init (): UserModuleProviders {
     // Driven adapters
-    const userRepository = new LocalUserRepository()
+    const userRepository = new MongoUserRepository(this.deps.db)
 
     // Application
     const createUserUseCase = new CreateUserUseCaseImpl(userRepository)
