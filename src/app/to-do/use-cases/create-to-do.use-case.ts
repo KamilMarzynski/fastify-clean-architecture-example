@@ -4,13 +4,13 @@ import {
   type CreateToDoOutput,
   type CreateToDoUseCase
 } from '../ports/use-cases'
-import { type TodoRepository } from '../ports/repositories/to-do.repository'
+import { type ToDoRepository } from '../ports/repositories/to-do.repository'
 import { ToDo } from '../domain'
 import { type UserApi } from '../../../_lib/_sharedKernel/user/ports'
 import { TO_DO_EXEPCTIONS } from './exceptions'
 
 export class CreateUserUseCaseImpl implements CreateToDoUseCase {
-  constructor (private readonly todoRepository: TodoRepository, private readonly userApi: UserApi) {}
+  constructor (private readonly todoRepository: ToDoRepository, private readonly userApi: UserApi) {}
 
   async execute (input: CreateToDoInput): Promise<CreateToDoOutput> {
     const { data } = input
