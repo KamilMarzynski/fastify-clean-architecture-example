@@ -5,16 +5,15 @@ import {
   GetUsersUseCaseImpl,
   UpdateUserUseCaseImpl
 } from './use-cases'
-import { type Db } from 'mongodb'
 import { type AppConfig } from '../../_lib/core/config'
 import { type Controller } from '../../_lib/core/controller'
 import { type UserControllerFactory } from './ports/controllers/user.controller.factory'
-import { MongoUserRepository } from './adapters/db/repositories/mongo/user.repository'
+import { type UserRepositoryFactory } from './ports/repositories/user.repository.factory'
 
 interface UserModuleDependencies {
-  db: Db
   config: AppConfig
   controllerFactory: UserControllerFactory
+  repositoryFactory: UserRepositoryFactory
 }
 
 interface UserModuleProviders {
@@ -26,7 +25,7 @@ export class UserModule {
 
   init (): UserModuleProviders {
     // Driven adapters
-    const userRepository = new MongoUserRepository(this.deps.db)
+    const userRepository = this.deps.repositoryFactory.createUserRepository()
 
     // Application
     const createUserUseCase = new CreateUserUseCaseImpl(userRepository)
