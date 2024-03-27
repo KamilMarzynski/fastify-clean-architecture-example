@@ -20,8 +20,13 @@ export class HttpApplicationControllerFactory implements ApplicationControllerFa
   }
 }
 
+// example of a another controller factory
 // export class WSApplicationControllerFactory implements ApplicationControllerFactory {
 //   createUserController (deps: UserControllerDependencies): WSUserController {
 //     return new WSUserController(deps)
 //   }
+//
+// public createToDoController (deps: ToDoControllerDependencies): ToDoController {
+//   return new WsToDoController(deps)
+// }
 // }
