@@ -5,12 +5,14 @@ import { makeDb } from '../frameworks/db/mongo'
 import { type Controller } from './controller'
 import { HttpApplicationControllerFactory, type ApplicationControllerFactory } from '../../app/application-controller.factory'
 import { MongoApplicationRepositoryFactory, type ApplicationRepositoryFactory, LocalApplicationRepositoryFactory } from '../../app/application-repository.factory'
+import { HttpTransportFactory, type TransportFactory } from './transport'
 
 export interface AppDependencies {
   server: FastifyInstance
   config: AppConfig
   controllerFactory: ApplicationControllerFactory
   repositoryFactory: ApplicationRepositoryFactory
+  transportFactory: TransportFactory
   controllers?: Controller[]
 }
 
@@ -18,10 +20,17 @@ export const makeDependencyContainer = async (deps: { config: AppConfig }): Prom
   const server = makeServer()
 
   const transportType = deps.config.transportType
-  let applicationControllerFactory: ApplicationControllerFactory
 
+  let applicationControllerFactory: ApplicationControllerFactory
   if (transportType === 'http') {
     applicationControllerFactory = new HttpApplicationControllerFactory()
+  } else {
+    throw new Error('Unsupported transport type')
+  }
+
+  let transportFactory: TransportFactory
+  if (transportType === 'http') {
+    transportFactory = new HttpTransportFactory()
   } else {
     throw new Error('Unsupported transport type')
   }
@@ -44,6 +53,7 @@ export const makeDependencyContainer = async (deps: { config: AppConfig }): Prom
   return {
     server,
     config: deps.config,
+    transportFactory,
     controllerFactory: applicationControllerFactory,
     repositoryFactory: applicationRepositoryFactory
   }
