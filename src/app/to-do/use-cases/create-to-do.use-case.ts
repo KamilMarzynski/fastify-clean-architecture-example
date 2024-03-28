@@ -7,9 +7,9 @@ import {
 import { type ToDoRepository } from '../ports/repositories/to-do.repository'
 import { ToDo } from '../domain'
 import { type UserApi } from '../../../_lib/_sharedKernel/user/ports'
-import { TO_DO_EXEPCTIONS } from './exceptions'
+import { TO_DO_EXCEPTIONS } from './exceptions'
 
-export class CreateUserUseCaseImpl implements CreateToDoUseCase {
+export class CreateToDoUseCaseImpl implements CreateToDoUseCase {
   constructor (private readonly todoRepository: ToDoRepository, private readonly userApi: UserApi) {}
 
   async execute (input: CreateToDoInput): Promise<CreateToDoOutput> {
@@ -18,7 +18,7 @@ export class CreateUserUseCaseImpl implements CreateToDoUseCase {
     const ownerId = toEntityId(data.ownerId)
     const owner = await this.userApi.getUserById(ownerId)
     if (owner === null) {
-      return TO_DO_EXEPCTIONS.USER_NOT_FOUND
+      return TO_DO_EXCEPTIONS.USER_NOT_FOUND
     }
 
     const id = await this.todoRepository.getNextId()
