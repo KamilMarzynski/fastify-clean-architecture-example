@@ -23,7 +23,7 @@ export const bootstrapServer = (deps: {
   }
 
   controllers.forEach(controller => {
-    // TODO: only for know, before adding more controller types
+    // TODO: only for now, before adding more controller types
     // move server type to config and then based on config start the right server type
     // and controllers will then have only this type (eg. http)
     if (isHttpController(controller)) {
