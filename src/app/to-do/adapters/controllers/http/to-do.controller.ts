@@ -3,7 +3,7 @@ import { isUseCaseError } from '../../../../../_lib/core/use-case'
 import { type ToDoController, type ToDoControllerDependencies } from '../../../ports/controllers/to-do.controller'
 
 import { type CreateToDoUseCase } from '../../../ports/use-cases'
-import { TO_DO_EXEPCTIONS } from '../../../use-cases/exceptions'
+import { TO_DO_EXCEPTIONS } from '../../../use-cases/exceptions'
 
 export class HttpToDoController extends HttpController implements ToDoController {
   protected readonly createToDoUseCase: CreateToDoUseCase
@@ -30,7 +30,8 @@ export class HttpToDoController extends HttpController implements ToDoController
       const output = await this.createToDoUseCase.execute(input)
 
       if (isUseCaseError(output)) {
-        if (output.code === TO_DO_EXEPCTIONS.USER_NOT_FOUND.code) {
+        if (output.code === TO_DO_EXCEPTIONS.USER_NOT_FOUND.code) {
+          // TODO: better error return
           res.status(404).send(output.message)
           return
         }
