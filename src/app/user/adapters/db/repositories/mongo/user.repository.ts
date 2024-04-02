@@ -3,6 +3,8 @@ import { type QueryOptions, type PaginatedResult } from '../../../../../../_lib/
 import { User, type UserId } from '../../../../../../_lib/_sharedKernel'
 import { type UserRepository } from '../../../../ports/repositories/user.repository'
 import { toEntityId } from '../../../../../../_lib/core/entityId'
+import { type CreateUserRepository } from '../../../../ports/repositories/create-user.repository'
+import { type UpdateUserRepository } from '../../../../ports/repositories/update-user.repository'
 
 const dataToEntity = (document: WithId<Document>): User => new User(toEntityId(document._id.toString()), {
   firstName: document.firstName,
@@ -10,7 +12,8 @@ const dataToEntity = (document: WithId<Document>): User => new User(toEntityId(d
   email: document.email
 })
 
-export class MongoUserRepository implements UserRepository {
+// becouse this repository is implementing both UserRepository and CreateUserRepository it will fit requirements for more generic use cases as well as for more specific use cases
+export class MongoUserRepository implements UserRepository, CreateUserRepository, UpdateUserRepository {
   constructor (private readonly db: Db) {}
 
   async findByEmail (email: string): Promise<User | null> {

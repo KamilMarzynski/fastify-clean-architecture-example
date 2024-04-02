@@ -1,8 +1,10 @@
 import { type QueryOptions, type PaginatedResult } from '../../../../../../_lib/core'
 import { type User, type UserId } from '../../../../../../_lib/_sharedKernel'
 import { type UserRepository } from '../../../../ports/repositories/user.repository'
+import { type CreateUserRepository } from '../../../../ports/repositories/create-user.repository'
+import { type UpdateUserRepository } from '../../../../ports/repositories/update-user.repository'
 
-export class LocalUserRepository implements UserRepository {
+export class LocalUserRepository implements UserRepository, CreateUserRepository, UpdateUserRepository {
   private users: User[] = []
 
   async findByEmail (email: string): Promise<User | null> {
