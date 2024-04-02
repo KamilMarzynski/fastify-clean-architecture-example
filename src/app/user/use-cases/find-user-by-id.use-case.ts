@@ -1,4 +1,4 @@
-import { type UserRepository } from '../ports/repositories/user.repository'
+import { type BasicUserRepository } from '../ports/repositories/user.repository'
 import { toValue, toEntityId } from '../../../_lib/core/entityId'
 import { USER_EXCEPTIONS } from './exceptions'
 import {
@@ -8,7 +8,7 @@ import {
 } from '../ports/use-cases'
 
 export class FindUserByIdUserUseCaseImpl implements FindUserByIdUserUseCase {
-  constructor (private readonly userRepository: UserRepository) {}
+  constructor (private readonly userRepository: BasicUserRepository) {}
 
   async execute (input: FindUserByIdUserInput): Promise<FindUserByIdUserOutput> {
     const { data } = input

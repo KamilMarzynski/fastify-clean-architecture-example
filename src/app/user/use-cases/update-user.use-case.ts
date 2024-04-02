@@ -1,5 +1,5 @@
 import { toEntityId } from '../../../_lib/core/entityId'
-import { type UserRepository } from '../ports/repositories/user.repository'
+import { type UpdateUserRepository } from '../ports/repositories/update-user.repository'
 import {
   type UpdateUserInput,
   type UpdateUserOutput,
@@ -8,7 +8,7 @@ import {
 import { USER_EXCEPTIONS } from './exceptions'
 
 export class UpdateUserUseCaseImpl implements UpdateUserUseCase {
-  constructor (private readonly userRepository: UserRepository) {}
+  constructor (private readonly userRepository: UpdateUserRepository) {}
 
   async execute (input: UpdateUserInput): Promise<UpdateUserOutput> {
     const { id, data } = input.data

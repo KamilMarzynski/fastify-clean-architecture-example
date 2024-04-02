@@ -1,5 +1,5 @@
 import { toValue } from '../../../_lib/core/entityId'
-import { type UserRepository } from '../ports/repositories/user.repository'
+import { type BasicUserRepository } from '../ports/repositories/user.repository'
 import {
   type GetUsersInput,
   type GetUsersOutput,
@@ -7,7 +7,7 @@ import {
 } from '../ports/use-cases'
 
 export class GetUsersUseCaseImpl implements GetUsersUseCase {
-  constructor (private readonly userRepository: UserRepository) {}
+  constructor (private readonly userRepository: BasicUserRepository) {}
 
   async execute (input: GetUsersInput): Promise<GetUsersOutput> {
     const { limit, order, page, orderBy } = input.data

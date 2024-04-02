@@ -1,15 +1,15 @@
 import { toValue } from '../../../_lib/core/entityId'
 import { User } from '../../../_lib/_sharedKernel'
-import { type UserRepository } from '../ports/repositories/user.repository'
 import {
   type CreateUserInput,
   type CreateUserOutput,
   type CreateUserUseCase
 } from '../ports/use-cases'
 import { USER_EXCEPTIONS } from './exceptions'
+import { type CreateUserRepository } from '../ports/repositories/create-user.repository'
 
 export class CreateUserUseCaseImpl implements CreateUserUseCase {
-  constructor (private readonly userRepository: UserRepository) {}
+  constructor (private readonly userRepository: CreateUserRepository) {}
 
   async execute (input: CreateUserInput): Promise<CreateUserOutput> {
     const { data } = input
