@@ -7,6 +7,10 @@ import { type ToDoControllerFactory } from './ports/controllers/to-do.controller
 import { type ToDoRepositoryFactory } from './ports/repositories/to-do.repository.factory'
 import { type TransportFactory } from '../../_lib/core/transport'
 import { UserApiImpl } from '../../_lib/_sharedKernel/user/adapters'
+import { CompleteToDoUseCaseImpl } from './use-cases/complete-to-do.use-case'
+import { FindToDoByIdUseCaseImpl } from './use-cases/find-to-do-by-id.use-case'
+import { DeleteToDoUseCaseImpl } from './use-cases/delete-to-do.use-case'
+import { GetUserToDosUseCaseImpl } from './use-cases/get-user-todos.use-case'
 
 interface ToDoModuleDependencies {
   config: AppConfig
@@ -29,10 +33,18 @@ export class ToDoModule {
 
     // Application
     const createToDoUseCase = new CreateToDoUseCaseImpl(toDoRepository, userApi)
+    const completeToDoUseCase = new CompleteToDoUseCaseImpl(toDoRepository)
+    const findToDoByIdUseCase = new FindToDoByIdUseCaseImpl(toDoRepository, userApi)
+    const deleteToDoUseCase = new DeleteToDoUseCaseImpl(toDoRepository)
+    const getUserToDosUseCase = new GetUserToDosUseCaseImpl(toDoRepository, userApi)
 
     // Driving adapters
     const toDoController = this.deps.controllerFactory.createToDoController({
-      createToDoUseCase
+      createToDoUseCase,
+      completeToDoUseCase,
+      findToDoByIdUseCase,
+      deleteToDoUseCase,
+      getUserToDosUseCase
     })
 
     return {
