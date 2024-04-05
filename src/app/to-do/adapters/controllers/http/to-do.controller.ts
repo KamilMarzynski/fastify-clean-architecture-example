@@ -2,7 +2,7 @@ import { HttpController, type Request, type Response } from '../../../../../_lib
 import { isUseCaseError } from '../../../../../_lib/core/use-case'
 import { type ToDoController, type ToDoControllerDependencies } from '../../../ports/controllers/to-do.controller'
 
-import { type CompleteToDoUseCase, type FindToDoByIdUseCase, type CreateToDoUseCase, type DeleteToDoUseCase } from '../../../ports/use-cases'
+import { type CompleteToDoUseCase, type FindToDoByIdUseCase, type CreateToDoUseCase, type DeleteToDoUseCase, type GetUserToDosUseCase } from '../../../ports/use-cases'
 import { TO_DO_EXCEPTIONS } from '../../../use-cases/exceptions'
 
 export class HttpToDoController extends HttpController implements ToDoController {
@@ -10,6 +10,7 @@ export class HttpToDoController extends HttpController implements ToDoController
   protected readonly completeToDoUseCase: CompleteToDoUseCase
   protected readonly findToDoByIdUseCase: FindToDoByIdUseCase
   protected readonly deleteToDoUseCase: DeleteToDoUseCase
+  protected readonly getUserToDosUseCase: GetUserToDosUseCase
 
   constructor (deps: ToDoControllerDependencies) {
     super()
@@ -17,6 +18,7 @@ export class HttpToDoController extends HttpController implements ToDoController
     this.findToDoByIdUseCase = deps.findToDoByIdUseCase
     this.completeToDoUseCase = deps.completeToDoUseCase
     this.deleteToDoUseCase = deps.deleteToDoUseCase
+    this.getUserToDosUseCase = deps.getUserToDosUseCase
 
     // TODO: move to decorators for each method
     this.handlers = [
@@ -41,6 +43,25 @@ export class HttpToDoController extends HttpController implements ToDoController
         handler: this.createToDo
       }
     ]
+  }
+
+  public readonly getUserToDos = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const input = {
+        data: req.body
+      }
+      const output = await this.getUserToDosUseCase.execute(input)
+      if (isUseCaseError(output)) {
+        if (output.code === TO_DO_EXCEPTIONS.USER_NOT_FOUND.code) {
+          // TODO: better error return
+          res.status(404).send(output.message)
+          return
+        }
+        res.status(500).send(output.message)
+      }
+    } catch (error: any) {
+      res.status(500).send(error.message)
+    }
   }
 
   public readonly deleteToDo = async (req: Request, res: Response): Promise<void> => {
