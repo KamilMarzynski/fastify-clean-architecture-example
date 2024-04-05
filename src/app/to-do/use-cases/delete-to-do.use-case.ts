@@ -1,4 +1,3 @@
-import { type UserApi } from '../../../_lib/_sharedKernel/user/ports'
 import { toEntityId, toValue } from '../../../_lib/core/entityId'
 import { type ToDoRepository } from '../ports/repositories/to-do.repository'
 import {
@@ -9,7 +8,7 @@ import {
 import { TO_DO_EXCEPTIONS } from './exceptions'
 
 export class DeleteToDoUseCaseImpl implements DeleteToDoUseCase {
-  constructor (private readonly todoRepository: ToDoRepository, private readonly userApi: UserApi) {}
+  constructor (private readonly todoRepository: ToDoRepository) {}
 
   async execute (input: DeleteToDoInput): Promise<DeleteToDoOutput> {
     const { data } = input
