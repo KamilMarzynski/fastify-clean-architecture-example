@@ -4,6 +4,7 @@ export type GetUserToDosInput = UseCaseInput<{
   ownerId: string
 }>
 
+// make output paginated
 export type GetUserToDosOutput = UseCaseOutput<{
   data: Array<{
     id: string
