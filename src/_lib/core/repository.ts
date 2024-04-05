@@ -18,6 +18,7 @@ export interface QueryOptions<E extends Entity<EntityId<string>, E['props']>> {
   page?: number
   orderBy?: OrderBy<E>
   order?: Order
+  filter?: Partial<E['props']>
 }
 
 export interface Repository<E extends Entity<EntityId<any>, E['props']>> {
