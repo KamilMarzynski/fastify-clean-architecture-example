@@ -1,4 +1,4 @@
-import { ObjectId, type Db, type WithId, type Document } from 'mongodb'
+import { ObjectId, type Db, type WithId, type Document, type Filter } from 'mongodb'
 import { type QueryOptions, type PaginatedResult } from '../../../../../../_lib/core'
 import { User, type UserId } from '../../../../../../_lib/_sharedKernel'
 import { type UserRepository } from '../../../../ports/repositories/user.repository'
@@ -11,6 +11,20 @@ const dataToEntity = (document: WithId<Document>): User => new User(toEntityId(d
   lastName: document.lastName,
   email: document.email
 })
+
+type PartialUserProps = Partial<User['props']>
+
+const toMongoFilter = (filter: PartialUserProps): Filter<Document> => {
+  const query: Filter<Document> = {}
+  const keys = Object.keys(filter) as Array<keyof PartialUserProps>
+  keys.forEach((key: keyof PartialUserProps) => {
+    if (filter[key] !== undefined) {
+      query[key] = { $eq: filter[key] }
+    }
+  })
+
+  return query
+}
 
 // becouse this repository is implementing both UserRepository and CreateUserRepository it will fit requirements for more generic use cases as well as for more specific use cases
 export class MongoUserRepository implements UserRepository, CreateUserRepository, UpdateUserRepository {
@@ -45,11 +59,12 @@ export class MongoUserRepository implements UserRepository, CreateUserRepository
     const page = query.page ?? 1
     const orderBy = query.orderBy ?? 'id'
     const order = query.order ?? 'asc'
+    const filter = query.filter ?? {}
 
     const sort = [orderBy, order]
 
     const data = await this.db.collection('users')
-      .find()
+      .find(toMongoFilter(filter))
       .sort(sort)
       .skip((page - 1) * limit)
       .limit(limit)

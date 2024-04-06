@@ -1,4 +1,4 @@
-import { ObjectId, type Db, type WithId, type Document } from 'mongodb'
+import { ObjectId, type Db, type WithId, type Document, type Filter } from 'mongodb'
 import { type QueryOptions, type PaginatedResult } from '../../../../../../_lib/core'
 import { type UserId } from '../../../../../../_lib/_sharedKernel'
 import { type ToDoRepository } from '../../../../ports/repositories/to-do.repository'
@@ -11,6 +11,20 @@ const dataToEntity = (document: WithId<Document>): ToDo => new ToDo(toEntityId(d
   ownerId: toEntityId(document.ownerId.toString()),
   isCompleted: document.isCompleted
 })
+
+type PartialToDoProps = Partial<ToDo['props']>
+
+const toMongoFilter = (filter: PartialToDoProps): Filter<Document> => {
+  const query: Filter<Document> = {}
+  const keys = Object.keys(filter) as Array<keyof PartialToDoProps>
+  keys.forEach((key: keyof PartialToDoProps) => {
+    if (filter[key] !== undefined) {
+      query[key] = { $eq: filter[key] }
+    }
+  })
+
+  return query
+}
 
 export class MongoToDoRepository implements ToDoRepository {
   constructor (private readonly db: Db) {}
@@ -32,11 +46,12 @@ export class MongoToDoRepository implements ToDoRepository {
     const page = query.page ?? 1
     const orderBy = query.orderBy ?? 'id'
     const order = query.order ?? 'asc'
+    const filter = query.filter ?? {}
 
     const sort = [orderBy, order]
 
     const data = await this.db.collection('todos')
-      .find()
+      .find(toMongoFilter(filter))
       .sort(sort)
       .skip((page - 1) * limit)
       .limit(limit)
