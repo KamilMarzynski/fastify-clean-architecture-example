@@ -48,7 +48,7 @@ export class HttpToDoController extends HttpController implements ToDoController
   public readonly getUserToDos = async (req: Request, res: Response): Promise<void> => {
     try {
       const input = {
-        data: req.body
+        data: req.query
       }
       const output = await this.getUserToDosUseCase.execute(input)
       if (isUseCaseError(output)) {
@@ -67,7 +67,7 @@ export class HttpToDoController extends HttpController implements ToDoController
   public readonly deleteToDo = async (req: Request, res: Response): Promise<void> => {
     try {
       const input = {
-        data: req.body
+        data: req.params
       }
       const output = await this.deleteToDoUseCase.execute(input)
 
@@ -116,7 +116,7 @@ export class HttpToDoController extends HttpController implements ToDoController
   public readonly findToDoById = async (req: Request, res: Response): Promise<void> => {
     try {
       const input = {
-        data: req.body
+        data: req.params
       }
       const output = await this.findToDoByIdUseCase.execute(input)
 
