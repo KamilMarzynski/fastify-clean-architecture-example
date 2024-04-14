@@ -1,4 +1,4 @@
-import { initApp } from './app/app'
+import { initApp } from './app/bootstrap/app'
 import { makeDependencyContainer } from './_lib/core/di'
 import { makeConfig } from './_lib/core/config'
 import { bootstrapServer } from './_lib/frameworks/server/server'

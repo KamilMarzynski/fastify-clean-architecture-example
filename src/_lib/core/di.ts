@@ -3,8 +3,8 @@ import { makeServer } from '../frameworks/server/server'
 import { type AppConfig } from './config'
 import { makeDb } from '../frameworks/db/mongo'
 import { type Controller } from './controller'
-import { HttpApplicationControllerFactory, type ApplicationControllerFactory } from '../../app/application-controller.factory'
-import { MongoApplicationRepositoryFactory, type ApplicationRepositoryFactory, LocalApplicationRepositoryFactory } from '../../app/application-repository.factory'
+import { HttpApplicationControllerFactory, type ApplicationControllerFactory } from '../../app/bootstrap/factories/controllers'
+import { MongoApplicationRepositoryFactory, type ApplicationRepositoryFactory, LocalApplicationRepositoryFactory } from '../../app/bootstrap/factories/repositories'
 import { HttpTransportFactory, type TransportFactory } from './transport'
 
 export interface AppDependencies {
